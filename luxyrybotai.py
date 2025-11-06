@@ -500,8 +500,11 @@ async def _maybe_health_server(app):
     await site.start()
     log.info("Health server started on port %s", port)
 
-# ─────────── Main ───────────
-from telegram.ext import ApplicationBuilder
+# ========== Main ==========
+from telegram.ext import ApplicationBuilder, CommandHandler
+
+async def main():
+    print("🤖 Bot is starting...")
 
     app = (
         ApplicationBuilder()
@@ -509,24 +512,25 @@ from telegram.ext import ApplicationBuilder
         .concurrent_updates(True)
         .build()
     )
-    # Commands
+
+    # ========== Commands ==========
     app.add_handler(CommandHandler("start", start_cmd))
-    app.add_handler(CommandHandler("menu",  menu_cmd))
-    app.add_handler(CommandHandler("help",  help_cmd))
-    app.add_handler(CommandHandler("ai",    ai_cmd))
+    app.add_handler(CommandHandler("menu", menu_cmd))
+    app.add_handler(CommandHandler("help", help_cmd))
+    app.add_handler(CommandHandler("ai", ai_cmd))
     app.add_handler(CommandHandler("solve", solve_cmd))
     app.add_handler(CommandHandler("translate", translate_cmd))
-    app.add_handler(CommandHandler("ocr",   ocr_cmd))
-    app.add_handler(CommandHandler("time",  time_cmd))
+    app.add_handler(CommandHandler("ocr", ocr_cmd))
+    app.add_handler(CommandHandler("time", time_cmd))
     app.add_handler(CommandHandler("weather", weather_cmd))
-    app.add_handler(CommandHandler("news",  news_cmd))
+    app.add_handler(CommandHandler("news", news_cmd))
     app.add_handler(CommandHandler("crypto", crypto_cmd))
     app.add_handler(CommandHandler("youtube", youtube_cmd))
-    app.add_handler(CommandHandler("tiktok",  tiktok_cmd))
+    app.add_handler(CommandHandler("tiktok", tiktok_cmd))
     app.add_handler(CommandHandler("facebook", facebook_cmd))
-    app.add_handler(CommandHandler("admin",  lambda u,c: admin_info(u,c,True)))
+    app.add_handler(CommandHandler("admin", lambda u, c: admin_info(u, c, True)))
 
-     print("✅ Bot started successfully!")
+    print("✅ Bot started successfully!")
     await app.run_polling(drop_pending_updates=True)
 
 if __name__ == "__main__":
