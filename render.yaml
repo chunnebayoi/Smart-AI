@@ -1,0 +1,9 @@
+services:
+  - type: worker
+    name: smart-bot-ai
+    env: python
+    pythonVersion: 3.12.3
+    buildCommand: pip install --upgrade pip && pip install -r requirements.txt
+    startCommand: python luxurybotai.py
+    autoDeploy: true
+    plan: free
