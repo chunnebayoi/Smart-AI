@@ -501,11 +501,15 @@ async def _maybe_health_server(app):
     log.info("Health server started on port %s", port)
 
 # ─────────── Main ───────────
-def main():
-    if not TOKEN:
-        raise SystemExit("Missing TELEGRAM_TOKEN in .env")
+from telegram.ext import ApplicationBuilder
 
-    app = ApplicationBuilder().token(TOKEN).post_init(_maybe_health_server).build()
+async def main():
+    print("🤖 Bot is starting...")
+    app = (
+        ApplicationBuilder()
+        .token(TOKEN)
+        .concurrent_updates(True)
+        .build()
 
     # Commands
     app.add_handler(CommandHandler("start", start_cmd))
@@ -524,17 +528,9 @@ def main():
     app.add_handler(CommandHandler("facebook", facebook_cmd))
     app.add_handler(CommandHandler("admin",  lambda u,c: admin_info(u,c,True)))
 
-    # Menu clicks
-    app.add_handler(CallbackQueryHandler(on_menu_click))
-
-    # Fallback text: hiện menu
-    app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, lambda u,c: u.message.reply_text("⬇️ Menu:", reply_markup=main_menu())))
-
-    # Error
-    app.add_error_handler(error_handler)
-
-    log.info("✨ %s đang chạy ...", BOT_TITLE)
-    app.run_polling(allowed_updates=Update.ALL_TYPES)
+     print("✅ Bot started successfully!")
+    await app.run_polling(drop_pending_updates=True)
 
 if __name__ == "__main__":
-    main()
+    import asyncio
+    asyncio.run(main())
