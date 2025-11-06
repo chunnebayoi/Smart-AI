@@ -503,14 +503,12 @@ async def _maybe_health_server(app):
 # ─────────── Main ───────────
 from telegram.ext import ApplicationBuilder
 
-async def main():
-    print("🤖 Bot is starting...")
     app = (
         ApplicationBuilder()
         .token(TOKEN)
         .concurrent_updates(True)
         .build()
-    (
+    )
     # Commands
     app.add_handler(CommandHandler("start", start_cmd))
     app.add_handler(CommandHandler("menu",  menu_cmd))
