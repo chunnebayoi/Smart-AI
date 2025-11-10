@@ -9,3 +9,4 @@ sympy
 google-generativeai
 newsapi-python
 pytz
+aiohttp

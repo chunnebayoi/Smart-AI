@@ -275,17 +275,13 @@ async def _maybe_health_server(app):
     log.info("Health server started on port %s", port)
 
 # ========== Main ==========
+# ========== Main ==========
 async def main():
-    print("🤖 Bot is starting...")
+    print("Bot is starting...")
 
-    app = (
-        ApplicationBuilder()
-        .token(TOKEN)
-        .concurrent_updates(True)
-        .build()
-    )
+    app = Application.builder().token(TOKEN).concurrent_updates(True).build()
 
-    # ========== Commands ==========
+    # Thêm handlers
     app.add_handler(CommandHandler("start", start_cmd))
     app.add_handler(CommandHandler("menu", menu_cmd))
     app.add_handler(CommandHandler("help", help_cmd))
@@ -301,13 +297,14 @@ async def main():
     app.add_handler(CommandHandler("tiktok", tiktok_cmd))
     app.add_handler(CommandHandler("facebook", facebook_cmd))
     app.add_handler(CommandHandler("admin", lambda u, c: admin_info(u, c, True)))
-    app.add_handler(CallbackQueryHandler(on_menu_click))  # THÊM DÒNG NÀY ĐỂ MENU CLICK HOẠT ĐỘNG
+    app.add_handler(CallbackQueryHandler(on_menu_click))
 
-    app.add_error_handler(error_handler)  # THÊM ERROR HANDLER
+    app.add_error_handler(error_handler)
 
-    await _maybe_health_server(app)  # THÊM DÒNG NÀY ĐỂ HEALTH SERVER CHẠY TRÊN RENDER
+    # Health server
+    await _maybe_health_server(app)
 
-    print("✅ Bot started successfully!")
+    print("Bot started successfully!")
     await app.run_polling(drop_pending_updates=True)
 
 if __name__ == "__main__":
