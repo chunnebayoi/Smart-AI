@@ -4,6 +4,6 @@ services:
     env: python
     pythonVersion: 3.12.3
     buildCommand: pip install --upgrade pip && pip install -r requirements.txt
-    startCommand: python luxurybotai.py
+    startCommand: python luxyrybotai.py
     autoDeploy: true
     plan: free
